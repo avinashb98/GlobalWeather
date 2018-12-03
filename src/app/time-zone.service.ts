@@ -8,7 +8,6 @@ export class TimeZoneService {
   apiKey = 'W79BOO2CV3FH';
 
   getTimeZoneUrl = 'http://api.timezonedb.com/v2.1/get-time-zone';
-  convertTimeZoneUrl = 'http://api.timezonedb.com/v2.1/convert-time-zone';
 
   constructor(private http: HttpClient) { }
 
@@ -24,9 +23,5 @@ export class TimeZoneService {
       observe: 'response'
     })
     .toPromise();
-    // .then(response => {
-    //   console.log(response);
-    // })
-    // .catch(console.log);
   }
 }
