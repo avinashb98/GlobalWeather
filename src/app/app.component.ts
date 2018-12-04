@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TimeZoneService } from './time-zone.service';
 import { WeatherService } from './weather.service';
 
@@ -7,10 +7,9 @@ import { WeatherService } from './weather.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'Global Weather App';
-  lat = 51.678418;
-  lng = 7.809007;
+export class AppComponent implements OnInit {
+  lat: number;
+  lng: number;
 
   currentLocation = {
     name: '',
@@ -28,7 +27,17 @@ export class AppComponent {
   constructor(
     private timeService: TimeZoneService,
     private weatherService: WeatherService
-  ) {}
+  ) {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+      });
+    }
+  }
+
+  ngOnInit() {
+  }
 
   onLocationClick(event) {
     this.lat = event.coords.lat;
