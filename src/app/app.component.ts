@@ -21,7 +21,8 @@ export class AppComponent implements OnInit {
   weather = {
     humidity: 0,
     temperature: 0,
-    windSpeed: 0
+    windSpeed: 0,
+    description: ''
   };
 
   constructor(
@@ -43,10 +44,9 @@ export class AppComponent implements OnInit {
   getTimeAndWeather() {
     this.timeService.getTimeZone(this.lat, this.lng)
     .then((response: any) => {
-      this.currentLocation.time = response.body.formatted;
+      this.currentLocation.time = this.formatTime(response.body.formatted);
       this.currentLocation.country = response.body.countryName;
       this.currentLocation.zone = response.body.zoneName;
-      console.log(this.currentLocation);
     })
     .catch(err => {
       console.log(err);
@@ -57,8 +57,8 @@ export class AppComponent implements OnInit {
       this.weather.humidity = Number(response.body.main.humidity);
       this.weather.temperature = Math.floor(Number(response.body.main.temp) - 273);
       this.weather.windSpeed = Math.floor(Number(response.body.wind.speed) * 3.6);
+      this.weather.description = response.body.weather[0].main;
       this.currentLocation.name = response.body.name;
-      console.log(this.weather);
     })
     .catch(err => {
       console.log(err);
@@ -69,5 +69,9 @@ export class AppComponent implements OnInit {
     this.lat = event.coords.lat;
     this.lng = event.coords.lng;
     this.getTimeAndWeather();
+  }
+
+  formatTime(time) {
+    return time.split(' ')[1].split(':').slice(0, 2).join(':');
   }
 }

@@ -1,18 +1,19 @@
 <agm-map [latitude]="lat" [longitude]="lng" (mapClick) = "onLocationClick($event)">
   <agm-marker [latitude]="lat" [longitude]="lng">
     <agm-info-window *ngIf="currentLocation">
-      <h4>Location Details</h4>
-      <ul>
-        <li>Name: {{currentLocation.name}}</li>
-        <li>Time: {{currentLocation.time}}</li>
-        <li>Country: {{currentLocation.country}}</li>
-      </ul>
-      <h4>Weather</h4>
-      <ul>
-        <li>Humidity: {{weather.humidity}} %</li>
-        <li>Temperature: {{weather.temperature}} degrees Celcius</li>
-        <li>Wind Speed: {{weather.windSpeed}} km/hr</li>
-      </ul>
+      <div class="location">{{currentLocation.name}}</div>
+      <div class="country">{{currentLocation.country}}</div>
+      <div class="temp-info">{{weather.temperature}}º</div>
+      <div class="weather-detail description">
+          {{weather.description}}
+      </div>
+      <div class="weather-detail sub-detail">
+        Humidity {{weather.humidity}}%
+      </div>
+      <div class="weather-detail sub-detail">
+        Wind {{weather.windSpeed}} km/h
+      </div>
+      <div class="time">{{currentLocation.time}}</div>
     </agm-info-window>
   </agm-marker>
 </agm-map>
