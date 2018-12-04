@@ -19,29 +19,28 @@ export class AppComponent implements OnInit {
   };
 
   weather = {
-    humidity: '',
-    temperature: '',
-    windSpeed: ''
+    humidity: 0,
+    temperature: 0,
+    windSpeed: 0
   };
 
   constructor(
     private timeService: TimeZoneService,
     private weatherService: WeatherService
   ) {
+  }
+
+  ngOnInit() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
+        this.getTimeAndWeather();
       });
     }
   }
 
-  ngOnInit() {
-  }
-
-  onLocationClick(event) {
-    this.lat = event.coords.lat;
-    this.lng = event.coords.lng;
+  getTimeAndWeather() {
     this.timeService.getTimeZone(this.lat, this.lng)
     .then((response: any) => {
       this.currentLocation.time = response.body.formatted;
@@ -55,14 +54,20 @@ export class AppComponent implements OnInit {
 
     this.weatherService.getWeather(this.lat, this.lng)
     .then((response: any) => {
-      this.weather.humidity = response.body.main.humidity;
-      this.weather.temperature = response.body.main.temp;
-      this.weather.windSpeed = response.body.wind.speed;
+      this.weather.humidity = Number(response.body.main.humidity);
+      this.weather.temperature = Math.floor(Number(response.body.main.temp) - 273);
+      this.weather.windSpeed = Math.floor(Number(response.body.wind.speed) * 3.6);
       this.currentLocation.name = response.body.name;
       console.log(this.weather);
     })
     .catch(err => {
       console.log(err);
     });
+  }
+
+  onLocationClick(event) {
+    this.lat = event.coords.lat;
+    this.lng = event.coords.lng;
+    this.getTimeAndWeather();
   }
 }
