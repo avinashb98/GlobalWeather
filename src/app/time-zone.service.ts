@@ -7,7 +7,7 @@ export class TimeZoneService {
   // Please get your own TimeZone API key at https://timezonedb.com/register
   apiKey = 'W79BOO2CV3FH';
 
-  getTimeZoneUrl = 'http://api.timezonedb.com/v2.1/get-time-zone';
+  getTimeZoneUrl = 'https://api.timezonedb.com/v2.1/get-time-zone';
 
   constructor(private http: HttpClient) { }
 
